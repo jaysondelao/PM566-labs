@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jayson De La O">
+
+<title>Lab 5</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="submit_files/libs/clipboard/clipboard.min.js"></script>
+<script src="submit_files/libs/quarto-html/quarto.js"></script>
+<script src="submit_files/libs/quarto-html/popper.min.js"></script>
+<script src="submit_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="submit_files/libs/quarto-html/anchor.min.js"></script>
+<link href="submit_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="submit_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="submit_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="submit_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="submit_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="submit_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="submit_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="submit_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="submit_files/libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="submit_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="submit_files/libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="submit_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="submit_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="submit_files/libs/leaflet-binding-2.2.0/leaflet.js"></script>
+<script src="submit_files/libs/leaflet-providers-1.13.0/leaflet-providers_1.13.0.js"></script>
+<script src="submit_files/libs/leaflet-providers-plugin-2.2.0/leaflet-providers-plugin.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 5</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jayson De La O </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dtplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:data.table':
+
+    between, first, last</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R.utils)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: R.oo</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: R.methodsS3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>R.methodsS3 v1.8.2 (2022-06-13 22:00:14 UTC) successfully loaded. See ?R.methodsS3 for help.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>R.oo v1.25.0 (2022-06-12 02:20:02 UTC) successfully loaded. See ?R.oo for help.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'R.oo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:R.methodsS3':
+
+    throw</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:methods':
+
+    getClasses, getMethods</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    attach, detach, load, save</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>R.utils v2.12.2 (2022-11-11 22:00:03 UTC) successfully loaded. See ?R.utils for help.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'R.utils'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:utils':
+
+    timestamp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    cat, commandArgs, getOption, isOpen, nullfile, parse, warnings</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(<span class="st">"met_all.gz"</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">download.file</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">url =</span> <span class="st">"https://raw.githubusercontent.com/USCbiostats/data-science-data/master/02_met/met_all.gz"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">destfile =</span> <span class="st">"met_all.gz"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">method   =</span> <span class="st">"libcurl"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">timeout  =</span> <span class="dv">60</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>met <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">"met_all.gz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>stations <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>stations[, USAF <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(USAF)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in eval(jsub, SDenv, parent.frame()): NAs introduced by coercion</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dealing with NAs and 999999</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>stations[, USAF   <span class="sc">:</span><span class="er">=</span> <span class="fu">fifelse</span>(USAF <span class="sc">==</span> <span class="dv">999999</span>, <span class="cn">NA_integer_</span>, USAF)]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>stations[, CTRY   <span class="sc">:</span><span class="er">=</span> <span class="fu">fifelse</span>(CTRY <span class="sc">==</span> <span class="st">""</span>, <span class="cn">NA_character_</span>, CTRY)]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>stations[, STATE  <span class="sc">:</span><span class="er">=</span> <span class="fu">fifelse</span>(STATE <span class="sc">==</span> <span class="st">""</span>, <span class="cn">NA_character_</span>, STATE)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the three relevant columns, and keeping unique records</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>stations <span class="ot">&lt;-</span> <span class="fu">unique</span>(stations[, <span class="fu">list</span>(USAF, CTRY, STATE)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dropping NAs</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>stations <span class="ot">&lt;-</span> stations[<span class="sc">!</span><span class="fu">is.na</span>(USAF)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Removing duplicates</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>stations[, n <span class="sc">:</span><span class="er">=</span> <span class="dv">1</span><span class="sc">:</span>.N, by <span class="ot">=</span> .(USAF)]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>stations <span class="ot">&lt;-</span> stations[n <span class="sc">==</span> <span class="dv">1</span>,][, n <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>met <span class="ot">&lt;-</span> met[,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  .(USAFID, WBAN, year, month, day, hour, min, lat, lon, elev,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    wind.sp, temp, atm.press)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>metmerge <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Data</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x     =</span> met,      </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y     =</span> stations, </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># List of variables to match</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.x  =</span> <span class="st">"USAFID"</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.y  =</span> <span class="st">"USAF"</span>, </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Which obs to keep?</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">all.x =</span> <span class="cn">TRUE</span>,      </span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">all.y =</span> <span class="cn">FALSE</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>QUESTION 1</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>metbys <span class="ot">&lt;-</span> metmerge[,.(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">temp     =</span> <span class="fu">median</span>(temp,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">wind.sp  =</span> <span class="fu">median</span>(wind.sp,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">atm.press=</span> <span class="fu">median</span>(atm.press,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lat      =</span> <span class="fu">median</span>(lat, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">lon      =</span> <span class="fu">median</span>(lon, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">elev     =</span> <span class="fu">median</span>(elev,<span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>), by<span class="ot">=</span>.(USAFID)]</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>metbys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      USAFID temp wind.sp atm.press    lat      lon elev
+   1: 690150 32.8     3.1   1010.50 34.300 -116.166  696
+   2: 720110 31.0     2.1        NA 30.784  -98.662  336
+   3: 720113 23.2     2.6        NA 42.543  -83.178  222
+   4: 720120 27.0     2.6        NA 32.217  -80.700    6
+   5: 720137 22.0     1.5        NA 41.425  -88.419  178
+  ---                                                   
+1591: 726777 18.3     4.6   1014.30 46.358 -104.250  906
+1592: 726797 18.3     2.6   1015.20 45.788 -111.160 1356
+1593: 726798 19.0     4.1   1014.30 45.698 -110.440 1408
+1594: 726810 25.0     3.1   1011.10 43.567 -116.240  874
+1595: 726813 22.8     2.1   1011.75 43.650 -116.633  741</code></pre>
+</div>
+</div>
+<p>Median for wind speed is 2.6, median of temp is 2, and median of atmospheric pressure is 1014.6. The three weather stations that represent the continental US 720277(temp), 720113(wind) , and 720394(atm). The stations did not coincide with the others.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>stationt <span class="ot">&lt;-</span> metbys[<span class="fu">which.min</span>(<span class="fu">abs</span>(metbys<span class="sc">$</span>temp<span class="sc">-</span> <span class="fu">quantile</span>(metbys<span class="sc">$</span>temp,<span class="at">probs=</span>.<span class="dv">5</span>,<span class="at">na.rm=</span><span class="cn">TRUE</span>) )) ]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>stationt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   USAFID temp wind.sp atm.press    lat     lon elev
+1: 720277   23     1.5        NA 35.256 -81.601  258</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a> stationw<span class="ot">&lt;-</span> metbys[<span class="fu">which.min</span>(<span class="fu">abs</span>(metbys<span class="sc">$</span>wind.sp<span class="sc">-</span> <span class="fu">quantile</span>(metbys<span class="sc">$</span>wind.sp,<span class="at">probs=</span>.<span class="dv">5</span>,<span class="at">na.rm=</span><span class="cn">TRUE</span>) )) ]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>stationw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   USAFID temp wind.sp atm.press    lat     lon elev
+1: 720113 23.2     2.6        NA 42.543 -83.178  222</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>stationa<span class="ot">&lt;-</span> metbys[<span class="fu">which.min</span>(<span class="fu">abs</span>(metbys<span class="sc">$</span>atm.press<span class="sc">-</span> <span class="fu">quantile</span>(metbys<span class="sc">$</span>atm.press,<span class="at">probs=</span>.<span class="dv">5</span>,<span class="at">na.rm=</span><span class="cn">TRUE</span>) )) ]</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>stationa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   USAFID temp wind.sp atm.press  lat     lon elev
+1: 720394 25.6       0    1014.6 34.1 -93.066   56</code></pre>
+</div>
+</div>
+<p>Question 2</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>metstat <span class="ot">&lt;-</span> metmerge[,.(</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">temp     =</span> <span class="fu">median</span>(temp,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">wind.sp  =</span> <span class="fu">median</span>(wind.sp,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">atm.press=</span> <span class="fu">median</span>(atm.press,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lat      =</span> <span class="fu">median</span>(lat, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">lon      =</span> <span class="fu">median</span>(lon, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">elev     =</span> <span class="fu">median</span>(elev,<span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>), by<span class="ot">=</span>.(USAFID, STATE)]</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>metstat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      USAFID STATE temp wind.sp atm.press    lat      lon elev
+   1: 690150    CA 32.8     3.1   1010.50 34.300 -116.166  696
+   2: 720110    TX 31.0     2.1        NA 30.784  -98.662  336
+   3: 720113    MI 23.2     2.6        NA 42.543  -83.178  222
+   4: 720120    SC 27.0     2.6        NA 32.217  -80.700    6
+   5: 720137    IL 22.0     1.5        NA 41.425  -88.419  178
+  ---                                                         
+1591: 726777    MT 18.3     4.6   1014.30 46.358 -104.250  906
+1592: 726797    MT 18.3     2.6   1015.20 45.788 -111.160 1356
+1593: 726798    MT 19.0     4.1   1014.30 45.698 -110.440 1408
+1594: 726810    ID 25.0     3.1   1011.10 43.567 -116.240  874
+1595: 726813    ID 22.8     2.1   1011.75 43.650 -116.633  741</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>latlong <span class="ot">&lt;-</span> metstat <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(STATE) <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avglat=</span><span class="fu">mean</span>(lat),</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avglon=</span><span class="fu">mean</span>(lon),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgtemp =</span> <span class="fu">median</span>(temp,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="at">avgwindsp =</span> <span class="fu">median</span>(wind.sp,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="at">avgatmpress =</span> <span class="fu">median</span>(atm.press,<span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>latlong</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 48 × 6
+   STATE avglat avglon avgtemp avgwindsp avgatmpress
+   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+ 1 AL      32.7  -86.6    25.2       1.5       1015.
+ 2 AR      35.2  -92.6    25.3       2.1       1015.
+ 3 AZ      33.7 -111.     30.3       3.1       1010.
+ 4 CA      36.3 -120.     21.7       2.6       1013.
+ 5 CO      39.1 -106.     20.7       3.1       1013.
+ 6 CT      41.5  -72.8    21.8       2.1       1015.
+ 7 DE      39.2  -75.5    24.3       2.6       1016.
+ 8 FL      28.3  -82.4    27.1       2.6       1015.
+ 9 GA      32.7  -83.4    25.6       1.5       1015.
+10 IA      41.9  -93.4    21         2.6       1015.
+# ℹ 38 more rows</code></pre>
+</div>
+</div>
+<p>l</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">merge</span>(metstat,latlong, <span class="at">by=</span><span class="st">"STATE"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>l</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      STATE USAFID temp wind.sp atm.press    lat      lon elev   avglat
+   1:    AL 720265 25.5     0.0        NA 32.915  -85.963  209 32.73409
+   2:    AL 720307 24.1     1.5        NA 34.861  -86.557  230 32.73409
+   3:    AL 720361 25.6     1.5    1015.1 31.043  -86.312   96 32.73409
+   4:    AL 720362 26.1     1.5    1014.4 31.846  -86.611  137 32.73409
+   5:    AL 720376 24.0     1.5        NA 34.229  -86.256  315 32.73409
+  ---                                                                  
+1591:    WY 726667 22.8     2.6    1012.4 44.517 -108.082 1199 42.87027
+1592:    WY 726690 20.6     3.6    1013.3 41.800 -107.200 2055 42.87027
+1593:    WY 726700 20.0     3.1    1015.6 44.517 -109.016 1553 42.87027
+1594:    WY 726710 16.7     3.1    1015.1 42.584 -110.107 2126 42.87027
+1595:    WY 726720 21.7     3.6    1012.9 43.064 -108.458 1684 42.87027
+          avglon avgtemp avgwindsp avgatmpress
+   1:  -86.64575   25.20       1.5      1014.8
+   2:  -86.64575   25.20       1.5      1014.8
+   3:  -86.64575   25.20       1.5      1014.8
+   4:  -86.64575   25.20       1.5      1014.8
+   5:  -86.64575   25.20       1.5      1014.8
+  ---                                         
+1591: -108.00185   19.15       3.6      1013.3
+1592: -108.00185   19.15       3.6      1013.3
+1593: -108.00185   19.15       3.6      1013.3
+1594: -108.00185   19.15       3.6      1013.3
+1595: -108.00185   19.15       3.6      1013.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>station.dist <span class="ot">&lt;-</span>l</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>station.dist<span class="sc">$</span>temp <span class="ot">&lt;-</span> station.dist<span class="sc">$</span>temp<span class="sc">-</span>station.dist<span class="sc">$</span>avgtemp</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>station.dist<span class="sc">$</span>wind.sp <span class="ot">&lt;-</span> station.dist<span class="sc">$</span>wind.sp<span class="sc">-</span>station.dist<span class="sc">$</span>avgwindsp</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>station.dist<span class="sc">$</span>atm.press <span class="ot">&lt;-</span> station.dist<span class="sc">$</span>atm.press<span class="sc">-</span>station.dist<span class="sc">$</span>avgatmpress</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>station.dist<span class="sc">$</span>temp<span class="ot">&lt;-</span> station.dist<span class="sc">$</span>temp<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>station.dist<span class="sc">$</span>wind.sp<span class="ot">&lt;-</span> station.dist<span class="sc">$</span>wind.sp<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>station.dist<span class="sc">$</span>atm.press<span class="ot">&lt;-</span> station.dist<span class="sc">$</span>atm.press<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>sqr.dist <span class="ot">&lt;-</span> station.dist<span class="sc">$</span>temp <span class="sc">+</span> station.dist<span class="sc">$</span>wind.sp <span class="sc">+</span> station.dist<span class="sc">$</span>atm.press</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>l<span class="sc">$</span>eucl.dist <span class="ot">&lt;-</span> sqr.dist</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>l</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      STATE USAFID temp wind.sp atm.press    lat      lon elev   avglat
+   1:    AL 720265 25.5     0.0        NA 32.915  -85.963  209 32.73409
+   2:    AL 720307 24.1     1.5        NA 34.861  -86.557  230 32.73409
+   3:    AL 720361 25.6     1.5    1015.1 31.043  -86.312   96 32.73409
+   4:    AL 720362 26.1     1.5    1014.4 31.846  -86.611  137 32.73409
+   5:    AL 720376 24.0     1.5        NA 34.229  -86.256  315 32.73409
+  ---                                                                  
+1591:    WY 726667 22.8     2.6    1012.4 44.517 -108.082 1199 42.87027
+1592:    WY 726690 20.6     3.6    1013.3 41.800 -107.200 2055 42.87027
+1593:    WY 726700 20.0     3.1    1015.6 44.517 -109.016 1553 42.87027
+1594:    WY 726710 16.7     3.1    1015.1 42.584 -110.107 2126 42.87027
+1595:    WY 726720 21.7     3.6    1012.9 43.064 -108.458 1684 42.87027
+          avglon avgtemp avgwindsp avgatmpress eucl.dist
+   1:  -86.64575   25.20       1.5      1014.8        NA
+   2:  -86.64575   25.20       1.5      1014.8        NA
+   3:  -86.64575   25.20       1.5      1014.8    0.2500
+   4:  -86.64575   25.20       1.5      1014.8    0.9700
+   5:  -86.64575   25.20       1.5      1014.8        NA
+  ---                                                   
+1591: -108.00185   19.15       3.6      1013.3   15.1325
+1592: -108.00185   19.15       3.6      1013.3    2.1025
+1593: -108.00185   19.15       3.6      1013.3    6.2625
+1594: -108.00185   19.15       3.6      1013.3    9.4925
+1595: -108.00185   19.15       3.6      1013.3    6.6625</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>medstate <span class="ot">&lt;-</span> l <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(STATE) <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(eucl.dist <span class="sc">==</span> <span class="fu">min</span>(eucl.dist,<span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(STATE,USAFID,lat,lon)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There were 2 warnings in `filter()`.
+The first warning was:
+ℹ In argument: `eucl.dist == min(eucl.dist, na.rm = TRUE)`.
+ℹ In group 26: `STATE = "ND"`.
+Caused by warning in `min()`:
+! no non-missing arguments to min; returning Inf
+ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>statemap <span class="ot">&lt;-</span> <span class="fu">leaflet</span>(medstate) <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(<span class="st">'CartoDB.Positron'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Some circles</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircles</span>(</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> <span class="sc">~</span>lat, <span class="at">lng=</span><span class="sc">~</span>lon)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>                                                </span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>   statemap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-d465cc5d07510525eff9" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d465cc5d07510525eff9">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircles","args":[[33.212,35.831,35.94,32.167,33.68,39.717,41.736,39.674,26.536,33.779,41.883,42.111,44.523,40.04,40.412,38.068,38.185,32.516,41.91,38.341,45.648,42.267,44.548,37.152,31.183,45.698,35.197,40.851,43.205,40.033,34.383,40.902,42.643,40.82,35.852,42.147,41.334,41.533,33.967,45.443,35.593,29.383,41.117,36.983,43.533,44.867,39.643,42.061],[-87.616,-90.646,-89.831,-110.883,-117.866,-104.75,-72.651,-75.60599999999999,-81.755,-84.521,-91.717,-92.916,-114.215,-88.27800000000001,-86.937,-97.27500000000001,-84.90300000000001,-92.041,-70.729,-75.51300000000001,-68.693,-84.467,-95.08,-94.495,-90.471,-110.44,-81.15600000000001,-96.748,-71.503,-74.34999999999999,-103.316,-117.808,-77.056,-82.518,-97.414,-121.724,-75.727,-71.283,-80.8,-98.413,-88.917,-98.583,-111.966,-77.001,-72.95,-91.488,-79.916,-104.158],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]}],"limits":{"lat":[26.536,45.698],"lng":[-121.724,-68.693]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>l</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      STATE USAFID temp wind.sp atm.press    lat      lon elev   avglat
+   1:    AL 720265 25.5     0.0        NA 32.915  -85.963  209 32.73409
+   2:    AL 720307 24.1     1.5        NA 34.861  -86.557  230 32.73409
+   3:    AL 720361 25.6     1.5    1015.1 31.043  -86.312   96 32.73409
+   4:    AL 720362 26.1     1.5    1014.4 31.846  -86.611  137 32.73409
+   5:    AL 720376 24.0     1.5        NA 34.229  -86.256  315 32.73409
+  ---                                                                  
+1591:    WY 726667 22.8     2.6    1012.4 44.517 -108.082 1199 42.87027
+1592:    WY 726690 20.6     3.6    1013.3 41.800 -107.200 2055 42.87027
+1593:    WY 726700 20.0     3.1    1015.6 44.517 -109.016 1553 42.87027
+1594:    WY 726710 16.7     3.1    1015.1 42.584 -110.107 2126 42.87027
+1595:    WY 726720 21.7     3.6    1012.9 43.064 -108.458 1684 42.87027
+          avglon avgtemp avgwindsp avgatmpress eucl.dist
+   1:  -86.64575   25.20       1.5      1014.8        NA
+   2:  -86.64575   25.20       1.5      1014.8        NA
+   3:  -86.64575   25.20       1.5      1014.8    0.2500
+   4:  -86.64575   25.20       1.5      1014.8    0.9700
+   5:  -86.64575   25.20       1.5      1014.8        NA
+  ---                                                   
+1591: -108.00185   19.15       3.6      1013.3   15.1325
+1592: -108.00185   19.15       3.6      1013.3    2.1025
+1593: -108.00185   19.15       3.6      1013.3    6.2625
+1594: -108.00185   19.15       3.6      1013.3    9.4925
+1595: -108.00185   19.15       3.6      1013.3    6.6625</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>mid.dist <span class="ot">&lt;-</span>l</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>mid.dist<span class="sc">$</span>lon <span class="ot">&lt;-</span> <span class="fu">abs</span>(mid.dist<span class="sc">$</span>lon<span class="sc">-</span>mid.dist<span class="sc">$</span>avglon)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>mid.dist<span class="sc">$</span>lat <span class="ot">&lt;-</span> <span class="fu">abs</span>(mid.dist<span class="sc">$</span>lat<span class="sc">-</span>mid.dist<span class="sc">$</span>avglat)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>mid.dist<span class="sc">$</span>lon<span class="ot">&lt;-</span> mid.dist<span class="sc">$</span>lon<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>mid.dist<span class="sc">$</span>lat<span class="ot">&lt;-</span> mid.dist<span class="sc">$</span>lat<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>midsqr.dist <span class="ot">&lt;-</span> mid.dist<span class="sc">$</span>lon <span class="sc">+</span> mid.dist<span class="sc">$</span>lat</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>l<span class="sc">$</span>midpoint.dist <span class="ot">&lt;-</span> midsqr.dist</span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>l</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      STATE USAFID temp wind.sp atm.press    lat      lon elev   avglat
+   1:    AL 720265 25.5     0.0        NA 32.915  -85.963  209 32.73409
+   2:    AL 720307 24.1     1.5        NA 34.861  -86.557  230 32.73409
+   3:    AL 720361 25.6     1.5    1015.1 31.043  -86.312   96 32.73409
+   4:    AL 720362 26.1     1.5    1014.4 31.846  -86.611  137 32.73409
+   5:    AL 720376 24.0     1.5        NA 34.229  -86.256  315 32.73409
+  ---                                                                  
+1591:    WY 726667 22.8     2.6    1012.4 44.517 -108.082 1199 42.87027
+1592:    WY 726690 20.6     3.6    1013.3 41.800 -107.200 2055 42.87027
+1593:    WY 726700 20.0     3.1    1015.6 44.517 -109.016 1553 42.87027
+1594:    WY 726710 16.7     3.1    1015.1 42.584 -110.107 2126 42.87027
+1595:    WY 726720 21.7     3.6    1012.9 43.064 -108.458 1684 42.87027
+          avglon avgtemp avgwindsp avgatmpress eucl.dist midpoint.dist
+   1:  -86.64575   25.20       1.5      1014.8        NA     0.4988746
+   2:  -86.64575   25.20       1.5      1014.8        NA     4.5316068
+   3:  -86.64575   25.20       1.5      1014.8    0.2500     2.9711871
+   4:  -86.64575   25.20       1.5      1014.8    0.9700     0.7899181
+   5:  -86.64575   25.20       1.5      1014.8        NA     2.3866498
+  ---                                                                 
+1591: -108.00185   19.15       3.6      1013.3   15.1325     2.7181469
+1592: -108.00185   19.15       3.6      1013.3    2.1025     1.7884335
+1593: -108.00185   19.15       3.6      1013.3    6.2625     3.7402303
+1594: -108.00185   19.15       3.6      1013.3    9.4925     4.5136228
+1595: -108.00185   19.15       3.6      1013.3    6.6625     0.2456079</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>midstate <span class="ot">&lt;-</span> l <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(STATE) <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(midpoint.dist <span class="sc">==</span> <span class="fu">min</span>(midpoint.dist,<span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(STATE,USAFID,lat,lon)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>midmap <span class="ot">&lt;-</span> <span class="fu">leaflet</span>(midstate) <span class="sc">%&gt;%</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(<span class="st">'CartoDB.Positron'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Some circles</span></span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircles</span>(</span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> <span class="sc">~</span>lat, <span class="at">lng=</span><span class="sc">~</span>lon,<span class="at">color=</span><span class="st">"red"</span>)</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>                                                </span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>   midmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-b302c744cc7fb52cae72" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b302c744cc7fb52cae72">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircles","args":[[32.383,35.6,33.467,36.319,39.05,41.51,39.133,28.474,32.633,41.991,44.523,40.483,40.711,38.065,37.578,30.718,41.876,39.173,44.533,43.622,45.147,38.096,32.321,45.807,35.582,48.39,41.623,43.567,40.033,35.003,38.051,42.207,40.616,35.417,42.381,40.85,41.597,33.967,44.381,36.009,31.106,40.219,38.01,44.204,47.104,44.359,39,43.064],[-86.34999999999999,-92.45,-111.733,-119.628,-105.51,-72.828,-75.467,-82.45399999999999,-83.59999999999999,-93.619,-114.215,-88.95,-86.375,-97.861,-84.77,-91.479,-71.021,-76.684,-69.667,-84.73699999999999,-94.50700000000001,-92.553,-90.078,-108.542,-79.101,-100.024,-98.94799999999999,-71.43300000000001,-74.34999999999999,-105.662,-117.09,-75.98,-83.06399999999999,-97.383,-122.872,-77.84999999999999,-71.41200000000001,-80.8,-100.285,-86.52,-98.196,-111.723,-77.97,-72.562,-122.287,-89.837,-80.274,-108.458],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.5,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]}],"limits":{"lat":[28.474,48.39],"lng":[-122.872,-69.667]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(<span class="st">'CartoDB.Positron'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Some circles</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircles</span>(<span class="at">data=</span>medstate,</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> <span class="sc">~</span>lat, <span class="at">lng=</span><span class="sc">~</span>lon, <span class="at">color=</span><span class="st">"blue"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircles</span>(<span class="at">data=</span>midstate,<span class="at">lat =</span> <span class="sc">~</span>lat, <span class="at">lng=</span><span class="sc">~</span>lon,<span class="at">color=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-acdaf38bc61fc051fcf1" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-acdaf38bc61fc051fcf1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircles","args":[[33.212,35.831,35.94,32.167,33.68,39.717,41.736,39.674,26.536,33.779,41.883,42.111,44.523,40.04,40.412,38.068,38.185,32.516,41.91,38.341,45.648,42.267,44.548,37.152,31.183,45.698,35.197,40.851,43.205,40.033,34.383,40.902,42.643,40.82,35.852,42.147,41.334,41.533,33.967,45.443,35.593,29.383,41.117,36.983,43.533,44.867,39.643,42.061],[-87.616,-90.646,-89.831,-110.883,-117.866,-104.75,-72.651,-75.60599999999999,-81.755,-84.521,-91.717,-92.916,-114.215,-88.27800000000001,-86.937,-97.27500000000001,-84.90300000000001,-92.041,-70.729,-75.51300000000001,-68.693,-84.467,-95.08,-94.495,-90.471,-110.44,-81.15600000000001,-96.748,-71.503,-74.34999999999999,-103.316,-117.808,-77.056,-82.518,-97.414,-121.724,-75.727,-71.283,-80.8,-98.413,-88.917,-98.583,-111.966,-77.001,-72.95,-91.488,-79.916,-104.158],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"blue","weight":5,"opacity":0.5,"fill":true,"fillColor":"blue","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[[32.383,35.6,33.467,36.319,39.05,41.51,39.133,28.474,32.633,41.991,44.523,40.483,40.711,38.065,37.578,30.718,41.876,39.173,44.533,43.622,45.147,38.096,32.321,45.807,35.582,48.39,41.623,43.567,40.033,35.003,38.051,42.207,40.616,35.417,42.381,40.85,41.597,33.967,44.381,36.009,31.106,40.219,38.01,44.204,47.104,44.359,39,43.064],[-86.34999999999999,-92.45,-111.733,-119.628,-105.51,-72.828,-75.467,-82.45399999999999,-83.59999999999999,-93.619,-114.215,-88.95,-86.375,-97.861,-84.77,-91.479,-71.021,-76.684,-69.667,-84.73699999999999,-94.50700000000001,-92.553,-90.078,-108.542,-79.101,-100.024,-98.94799999999999,-71.43300000000001,-74.34999999999999,-105.662,-117.09,-75.98,-83.06399999999999,-97.383,-122.872,-77.84999999999999,-71.41200000000001,-80.8,-100.285,-86.52,-98.196,-111.723,-77.97,-72.562,-122.287,-89.837,-80.274,-108.458],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.5,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]}],"limits":{"lat":[26.536,48.39],"lng":[-122.872,-68.693]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Question 4</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>metsummary <span class="ot">&lt;-</span> metmerge[,.(</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">temp     =</span> <span class="fu">mean</span>(temp,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">wind.sp  =</span> <span class="fu">mean</span>(wind.sp,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">atm.press=</span> <span class="fu">mean</span>(atm.press,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lat      =</span> <span class="fu">mean</span>(lat),</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">lon      =</span> <span class="fu">mean</span>(lon), </span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">elev     =</span> <span class="fu">mean</span>(elev,<span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>), by<span class="ot">=</span>.( STATE)]</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>metsummary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    STATE     temp  wind.sp atm.press      lat        lon       elev
+ 1:    CA 22.36199 2.614120  1012.640 36.50457 -120.03186  316.79527
+ 2:    TX 29.59743 3.190673  1012.285 31.12371  -98.01178  323.86066
+ 3:    MI 20.19981 2.215030  1014.853 43.41830  -84.69928  250.32185
+ 4:    SC 25.87440 1.696787  1015.335 33.92152  -80.79047  109.46671
+ 5:    IL 22.41005 2.171944  1014.215 40.22512  -88.81862  201.57373
+ 6:    MO 23.87039 2.379529  1014.616 38.28066  -92.75603  268.19973
+ 7:    AR 26.20697 1.836963  1014.551 35.18904  -92.68849  198.65830
+ 8:    OR 18.68974 2.094975  1015.112 43.31317 -122.79527  624.36074
+ 9:    WA 19.11089 1.236213       NaN 47.41976 -122.56157   87.29520
+10:    GA 26.53857 1.509138  1015.168 32.56718  -83.33168  147.48446
+11:    MN 19.35621 2.427195  1014.965 45.23699  -94.31785  341.95278
+12:    AL 26.19799 1.566381  1016.148 32.75554  -86.65318  152.89887
+13:    IN 21.76562 2.260783  1015.035 40.51988  -86.33665  229.08639
+14:    NC 24.37801 1.634159  1015.612 35.55578  -79.17800  181.83647
+15:    VA 23.88116 1.696749  1015.235 37.54765  -78.21585  226.71010
+16:    IA 21.27773 2.568719  1015.210 41.85552  -93.49382  318.10492
+17:    PA 21.61523 1.812037  1015.614 40.62764  -77.62156  286.44751
+18:    NE 22.10408 3.138987  1014.254 41.26627  -98.59109  631.27760
+19:    ID 20.69554 2.380664  1013.222 45.02638 -115.17229 1067.52790
+20:    WI 18.57907 2.038866  1014.940 44.46353  -89.93145  316.53849
+21:    WV 21.74214 1.655494  1015.725 38.72488  -80.58560  484.82262
+22:    MD 24.55218 1.855838  1015.285 39.06089  -76.82664   99.95357
+23:    AZ 28.80596 2.984547  1010.771 33.91659 -111.54154 1147.08600
+24:    OK 27.40891 3.231213  1012.610 35.55121  -97.15465  340.72913
+25:    WY 18.60170 3.833987  1013.939 42.72014 -108.18546 1955.66090
+26:    LA 27.97441 1.724747  1014.591 30.51183  -91.71927   40.28226
+27:    KY 23.87157 1.788035  1015.301 37.50187  -85.11900  324.53989
+28:    FL 27.53747 2.501976  1015.242 28.33518  -82.39921   19.10794
+29:    CO 19.54725 3.075255  1013.725 39.12441 -105.69753 2173.41158
+30:    OH 21.83450 2.423660  1015.315 40.40494  -82.94026  284.91210
+31:    NJ 23.34497 1.884296  1014.791 40.31345  -74.47269   36.14138
+32:    NM 24.47771 3.477918  1011.992 34.30261 -105.89839 1664.38603
+33:    KS 24.25538 3.729569  1013.360 38.32236  -97.96264  549.22814
+34:    ND 18.37173 3.869228       NaN 47.75992 -100.08523  500.10506
+35:    VT 18.76708 1.671583  1014.645 44.35726  -72.58793  231.69314
+36:    MS 26.41324 1.477365  1014.995 33.05395  -89.77502   88.50006
+37:    CT 22.25797 2.194895  1015.036 41.48119  -72.71733   71.68437
+38:    NV 26.04296 2.999347  1011.621 38.68753 -117.21082 1255.68426
+39:    UT 25.82056 4.402966  1012.005 39.38740 -112.33426 1484.57632
+40:    SD 20.03650 3.774762  1014.389 44.22241  -99.86385  687.01758
+41:    TN 24.78164 1.519564  1014.448 35.70926  -86.55706  251.30415
+42:    NY 20.12499 2.320394  1015.015 42.40904  -75.50851  246.32321
+43:    RI 22.32827 2.728330  1013.606 41.62342  -71.49612   52.46546
+44:    MA 21.47484 2.699620  1014.755 42.03785  -70.99897   54.35105
+45:    DE 24.58116 2.762484  1015.058 39.15950  -75.47708   16.17363
+46:    NH 18.24715 2.192529  1014.635 43.54523  -71.55302  313.18339
+47:    ME 18.79902 2.133954  1014.362 44.60213  -69.57403  116.06669
+48:    MT 18.16680 3.426447  1014.095 45.81591 -108.98264 1389.38594
+    STATE     temp  wind.sp atm.press      lat        lon       elev</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>metsummary<span class="sc">$</span>tc <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(metsummary<span class="sc">$</span>temp  <span class="sc">&lt;</span><span class="dv">20</span>,<span class="st">"low"</span>,</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">ifelse</span>(metsummary<span class="sc">$</span>temp <span class="sc">&gt;=</span> <span class="dv">20</span> <span class="sc">&amp;</span> metsummary<span class="sc">$</span>temp <span class="sc">&lt;</span><span class="dv">25</span>,<span class="st">"Mid"</span>,</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">ifelse</span>(metsummary<span class="sc">$</span>temp <span class="sc">&amp;</span> metsummary<span class="sc">$</span>temp <span class="sc">&gt;=</span> <span class="dv">25</span>,<span class="st">"High"</span>,<span class="cn">NA</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>                      )))</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    metsummary                       </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    STATE     temp  wind.sp atm.press      lat        lon       elev   tc
+ 1:    CA 22.36199 2.614120  1012.640 36.50457 -120.03186  316.79527  Mid
+ 2:    TX 29.59743 3.190673  1012.285 31.12371  -98.01178  323.86066 High
+ 3:    MI 20.19981 2.215030  1014.853 43.41830  -84.69928  250.32185  Mid
+ 4:    SC 25.87440 1.696787  1015.335 33.92152  -80.79047  109.46671 High
+ 5:    IL 22.41005 2.171944  1014.215 40.22512  -88.81862  201.57373  Mid
+ 6:    MO 23.87039 2.379529  1014.616 38.28066  -92.75603  268.19973  Mid
+ 7:    AR 26.20697 1.836963  1014.551 35.18904  -92.68849  198.65830 High
+ 8:    OR 18.68974 2.094975  1015.112 43.31317 -122.79527  624.36074  low
+ 9:    WA 19.11089 1.236213       NaN 47.41976 -122.56157   87.29520  low
+10:    GA 26.53857 1.509138  1015.168 32.56718  -83.33168  147.48446 High
+11:    MN 19.35621 2.427195  1014.965 45.23699  -94.31785  341.95278  low
+12:    AL 26.19799 1.566381  1016.148 32.75554  -86.65318  152.89887 High
+13:    IN 21.76562 2.260783  1015.035 40.51988  -86.33665  229.08639  Mid
+14:    NC 24.37801 1.634159  1015.612 35.55578  -79.17800  181.83647  Mid
+15:    VA 23.88116 1.696749  1015.235 37.54765  -78.21585  226.71010  Mid
+16:    IA 21.27773 2.568719  1015.210 41.85552  -93.49382  318.10492  Mid
+17:    PA 21.61523 1.812037  1015.614 40.62764  -77.62156  286.44751  Mid
+18:    NE 22.10408 3.138987  1014.254 41.26627  -98.59109  631.27760  Mid
+19:    ID 20.69554 2.380664  1013.222 45.02638 -115.17229 1067.52790  Mid
+20:    WI 18.57907 2.038866  1014.940 44.46353  -89.93145  316.53849  low
+21:    WV 21.74214 1.655494  1015.725 38.72488  -80.58560  484.82262  Mid
+22:    MD 24.55218 1.855838  1015.285 39.06089  -76.82664   99.95357  Mid
+23:    AZ 28.80596 2.984547  1010.771 33.91659 -111.54154 1147.08600 High
+24:    OK 27.40891 3.231213  1012.610 35.55121  -97.15465  340.72913 High
+25:    WY 18.60170 3.833987  1013.939 42.72014 -108.18546 1955.66090  low
+26:    LA 27.97441 1.724747  1014.591 30.51183  -91.71927   40.28226 High
+27:    KY 23.87157 1.788035  1015.301 37.50187  -85.11900  324.53989  Mid
+28:    FL 27.53747 2.501976  1015.242 28.33518  -82.39921   19.10794 High
+29:    CO 19.54725 3.075255  1013.725 39.12441 -105.69753 2173.41158  low
+30:    OH 21.83450 2.423660  1015.315 40.40494  -82.94026  284.91210  Mid
+31:    NJ 23.34497 1.884296  1014.791 40.31345  -74.47269   36.14138  Mid
+32:    NM 24.47771 3.477918  1011.992 34.30261 -105.89839 1664.38603  Mid
+33:    KS 24.25538 3.729569  1013.360 38.32236  -97.96264  549.22814  Mid
+34:    ND 18.37173 3.869228       NaN 47.75992 -100.08523  500.10506  low
+35:    VT 18.76708 1.671583  1014.645 44.35726  -72.58793  231.69314  low
+36:    MS 26.41324 1.477365  1014.995 33.05395  -89.77502   88.50006 High
+37:    CT 22.25797 2.194895  1015.036 41.48119  -72.71733   71.68437  Mid
+38:    NV 26.04296 2.999347  1011.621 38.68753 -117.21082 1255.68426 High
+39:    UT 25.82056 4.402966  1012.005 39.38740 -112.33426 1484.57632 High
+40:    SD 20.03650 3.774762  1014.389 44.22241  -99.86385  687.01758  Mid
+41:    TN 24.78164 1.519564  1014.448 35.70926  -86.55706  251.30415  Mid
+42:    NY 20.12499 2.320394  1015.015 42.40904  -75.50851  246.32321  Mid
+43:    RI 22.32827 2.728330  1013.606 41.62342  -71.49612   52.46546  Mid
+44:    MA 21.47484 2.699620  1014.755 42.03785  -70.99897   54.35105  Mid
+45:    DE 24.58116 2.762484  1015.058 39.15950  -75.47708   16.17363  Mid
+46:    NH 18.24715 2.192529  1014.635 43.54523  -71.55302  313.18339  low
+47:    ME 18.79902 2.133954  1014.362 44.60213  -69.57403  116.06669  low
+48:    MT 18.16680 3.426447  1014.095 45.81591 -108.98264 1389.38594  low
+    STATE     temp  wind.sp atm.press      lat        lon       elev   tc</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>sum <span class="ot">&lt;-</span> metsummary <span class="sc">%&gt;%</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tc) <span class="sc">%&gt;%</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">numstate=</span> <span class="fu">sum</span>(<span class="fu">table</span>(STATE)),</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lvlavgtemp=</span> <span class="fu">mean</span>(temp, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">lvlavgwind=</span> <span class="fu">mean</span>(wind.sp, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">lvlavgatmpress=</span> <span class="fu">mean</span>(atm.press, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">is.na</span>(metsummary))</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(metsummary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>sum</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  tc    numstate lvlavgtemp lvlavgwind lvlavgatmpress `sum(is.na(metsummary))`
+  &lt;chr&gt;    &lt;int&gt;      &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;                    &lt;int&gt;
+1 High        12       27.0       2.43          1014.                        2
+2 Mid         25       22.6       2.39          1015.                        2
+3 low         11       18.7       2.55          1014.                        2</code></pre>
+</div>
+</div>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
