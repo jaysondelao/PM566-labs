@@ -1,8 +1,9 @@
 ---
-title: "Lab 5"
+title: "Lab5"
 author: "Jayson De La O"
-format: html
-editor: visual
+format:
+  html:
+    embed-resources: true
 ---
 
 ```{r}
@@ -138,7 +139,7 @@ avgatmpress = median(atm.press,na.rm=TRUE))
 latlong
 ```
 
-l
+States with the Site ID that is the median for that state
 
 ```{r}
 l <- merge(metstat,latlong, by="STATE")
@@ -170,7 +171,7 @@ medstate <- l %>%
 
   filter(eucl.dist == min(eucl.dist,na.rm=TRUE)) %>%
   select(STATE,USAFID,lat,lon)
-
+medstate
 
 
 
@@ -185,6 +186,10 @@ statemap <- leaflet(medstate) %>%
 
 ```
 
+
+
+QUESTION 3
+State with the site ID for the station closest to the midpoint
 ```{r}
 l
 
@@ -214,7 +219,7 @@ midstate <- l %>%
   filter(midpoint.dist == min(midpoint.dist,na.rm=TRUE)) %>%
   select(STATE,USAFID,lat,lon)
 
-
+midstate
 
 
 midmap <- leaflet(midstate) %>%
@@ -238,6 +243,7 @@ leaflet() %>%
 ```
 
 Question 4
+Summary table that shows num of states, avg temp, avg wind, avg atm.press by avg temp lvl
 
 ```{r}
 metsummary <- metmerge[,.(
