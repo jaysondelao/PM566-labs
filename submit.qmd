@@ -1,0 +1,280 @@
+---
+title: "Lab 5"
+author: "Jayson De La O"
+format: html
+editor: visual
+---
+
+```{r}
+library(data.table)
+library(dtplyr)
+library(dplyr)
+library(R.utils)
+library(leaflet)
+```
+
+```{r}
+if (!file.exists("met_all.gz"))
+  download.file(
+    url = "https://raw.githubusercontent.com/USCbiostats/data-science-data/master/02_met/met_all.gz",
+    destfile = "met_all.gz",
+    method   = "libcurl",
+    timeout  = 60
+    )
+met <- data.table::fread("met_all.gz")
+```
+
+```{r}
+stations <- fread("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv")
+stations[, USAF := as.integer(USAF)]
+```
+
+```{r}
+
+# Dealing with NAs and 999999
+stations[, USAF   := fifelse(USAF == 999999, NA_integer_, USAF)]
+stations[, CTRY   := fifelse(CTRY == "", NA_character_, CTRY)]
+stations[, STATE  := fifelse(STATE == "", NA_character_, STATE)]
+```
+
+```{r}
+
+# Selecting the three relevant columns, and keeping unique records
+stations <- unique(stations[, list(USAF, CTRY, STATE)])
+```
+
+```{r}
+
+# Dropping NAs
+stations <- stations[!is.na(USAF)]
+```
+
+```{r}
+
+# Removing duplicates
+stations[, n := 1:.N, by = .(USAF)]
+stations <- stations[n == 1,][, n := NULL]
+```
+
+```{r}
+met <- met[,
+  .(USAFID, WBAN, year, month, day, hour, min, lat, lon, elev,
+    wind.sp, temp, atm.press)]
+```
+
+```{r}
+metmerge <- merge(
+  # Data
+  x     = met,      
+  y     = stations, 
+  # List of variables to match
+  by.x  = "USAFID",
+  by.y  = "USAF", 
+  # Which obs to keep?
+  all.x = TRUE,      
+  all.y = FALSE
+  )
+```
+
+QUESTION 1
+
+```{r}
+
+metbys <- metmerge[,.(
+  temp     = median(temp,na.rm=TRUE),
+  wind.sp  = median(wind.sp,na.rm=TRUE),
+  atm.press= median(atm.press,na.rm=TRUE),
+  lat      = median(lat, na.rm=TRUE),
+  lon      = median(lon, na.rm=TRUE), 
+  elev     = median(elev,na.rm=TRUE)
+  
+), by=.(USAFID)]
+metbys
+
+
+
+```
+
+Median for wind speed is 2.6, median of temp is 2, and median of atmospheric pressure is 1014.6. The three weather stations that represent the continental US 720277(temp), 720113(wind) , and 720394(atm). The stations did not coincide with the others.
+
+```{r}
+stationt <- metbys[which.min(abs(metbys$temp- quantile(metbys$temp,probs=.5,na.rm=TRUE) )) ]
+
+stationt
+
+ stationw<- metbys[which.min(abs(metbys$wind.sp- quantile(metbys$wind.sp,probs=.5,na.rm=TRUE) )) ]
+stationw
+
+stationa<- metbys[which.min(abs(metbys$atm.press- quantile(metbys$atm.press,probs=.5,na.rm=TRUE) )) ]
+stationa
+```
+
+Question 2
+
+```{r}
+metstat <- metmerge[,.(
+  temp     = median(temp,na.rm=TRUE),
+  wind.sp  = median(wind.sp,na.rm=TRUE),
+  atm.press= median(atm.press,na.rm=TRUE),
+  lat      = median(lat, na.rm=TRUE),
+  lon      = median(lon, na.rm=TRUE), 
+  elev     = median(elev,na.rm=TRUE)
+  
+), by=.(USAFID, STATE)]
+metstat
+```
+
+```{r}
+
+latlong <- metstat %>%
+  group_by(STATE) %>%
+  summarize(
+    avglat=mean(lat),
+    avglon=mean(lon),
+    avgtemp = median(temp,na.rm=TRUE),
+avgwindsp = median(wind.sp,na.rm=TRUE),
+avgatmpress = median(atm.press,na.rm=TRUE))
+  
+latlong
+```
+
+l
+
+```{r}
+l <- merge(metstat,latlong, by="STATE")
+l
+
+
+station.dist <-l
+station.dist$temp <- station.dist$temp-station.dist$avgtemp
+station.dist$wind.sp <- station.dist$wind.sp-station.dist$avgwindsp
+station.dist$atm.press <- station.dist$atm.press-station.dist$avgatmpress
+
+
+
+
+station.dist$temp<- station.dist$temp^2
+station.dist$wind.sp<- station.dist$wind.sp^2
+station.dist$atm.press<- station.dist$atm.press^2
+
+
+
+sqr.dist <- station.dist$temp + station.dist$wind.sp + station.dist$atm.press
+
+
+l$eucl.dist <- sqr.dist
+l
+ 
+medstate <- l %>%
+  group_by(STATE) %>%
+
+  filter(eucl.dist == min(eucl.dist,na.rm=TRUE)) %>%
+  select(STATE,USAFID,lat,lon)
+
+
+
+
+statemap <- leaflet(medstate) %>%
+  addProviderTiles('CartoDB.Positron') %>% 
+  # Some circles
+  addCircles(
+    lat = ~lat, lng=~lon)
+                                                
+   statemap
+
+
+```
+
+```{r}
+l
+
+mid.dist <-l
+mid.dist$lon <- abs(mid.dist$lon-mid.dist$avglon)
+mid.dist$lat <- abs(mid.dist$lat-mid.dist$avglat)
+
+
+
+
+
+mid.dist$lon<- mid.dist$lon^2
+mid.dist$lat<- mid.dist$lat^2
+
+
+
+
+midsqr.dist <- mid.dist$lon + mid.dist$lat
+
+
+l$midpoint.dist <- midsqr.dist
+l
+ 
+midstate <- l %>%
+  group_by(STATE) %>%
+
+  filter(midpoint.dist == min(midpoint.dist,na.rm=TRUE)) %>%
+  select(STATE,USAFID,lat,lon)
+
+
+
+
+midmap <- leaflet(midstate) %>%
+  addProviderTiles('CartoDB.Positron') %>% 
+  # Some circles
+  addCircles(
+    lat = ~lat, lng=~lon,color="red")
+                                                
+   midmap
+   
+```
+
+```{r}
+leaflet() %>%
+  addProviderTiles('CartoDB.Positron') %>% 
+  # Some circles
+  addCircles(data=medstate,
+    lat = ~lat, lng=~lon, color="blue") %>%
+  addCircles(data=midstate,lat = ~lat, lng=~lon,color="red")
+                            
+```
+
+Question 4
+
+```{r}
+metsummary <- metmerge[,.(
+  temp     = mean(temp,na.rm=TRUE),
+  wind.sp  = mean(wind.sp,na.rm=TRUE),
+  atm.press= mean(atm.press,na.rm=TRUE),
+  lat      = mean(lat),
+  lon      = mean(lon), 
+  elev     = mean(elev,na.rm=TRUE)
+  
+), by=.( STATE)]
+metsummary
+
+
+
+
+metsummary$tc <- ifelse(metsummary$temp  <20,"low",
+                       ifelse(metsummary$temp >= 20 & metsummary$temp <25,"Mid",
+                              ifelse(metsummary$temp & metsummary$temp >= 25,"High",NA
+                      )))
+    metsummary                       
+```
+
+```{r}
+sum <- metsummary %>%
+  group_by(tc) %>%
+  summarize(
+    numstate= sum(table(STATE)),
+    lvlavgtemp= mean(temp, na.rm=TRUE),
+     lvlavgwind= mean(wind.sp, na.rm=TRUE),
+     lvlavgatmpress= mean(atm.press, na.rm=TRUE),
+    sum(is.na(metsummary))
+  )
+sum(is.na(metsummary))
+sum
+```
+
+```{r}
+
+```
